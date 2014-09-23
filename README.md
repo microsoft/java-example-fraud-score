@@ -130,21 +130,35 @@ within a STOMP message delivered over a STOMP-WebSocket channel.
 
 ## Running the Example
 
-To run this example application on a Unix based OS, run the following command:
+A Gradle build script is provided to run the example:
+
+```
+build.gradle
+```
+
+By default, the build configuration assumes an instance of the DeployR server
+is running on `localhost`. If your instance of DeployR is running at some
+other IP address then please udpate the `endpoint` property in the
+configuration file as appropriate.
+
+You do not need to install Gradle before running these commands. To run
+this example application on a Unix based OS, run the following shell
+script:
 
 ```
 gradlew run
 ```
 
 
-To run this example application on a Windows based OS, run the following command:
+To run this example application on a Windows based OS, run the following
+batch file:
 
 ```
 gradlew.bat run
 ```
 
-
-Once the server application has successfully initialized, open
+Observe the console output in your terminal window to determine if the
+server application has started successfully. Once started, open
 the client application in your Web browser:
 
 ```
