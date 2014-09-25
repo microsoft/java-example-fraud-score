@@ -26,10 +26,11 @@ repositories {
 }
 
 dependencies {
+    compile "com.revolutionanalytics.deployr:jRBroker:7.3.0"
+    compile "com.revolutionanalytics.deployr:jDeployR:7.3.0"
     compile "org.springframework.boot:spring-boot-starter-web:1.0.1.RELEASE"
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework:spring-messaging")
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "commons-codec:commons-codec:1.9"
     compile "commons-lang:commons-lang:2.6"
     compile "commons-logging:commons-logging:1.2"
