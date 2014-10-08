@@ -55,6 +55,21 @@ data inputs. The scoring function is found here:
 analytics/ccFraudScore.R
 ```
 
+The R scripts and data models used by this example application are
+bundled by default within the DeployR 7.3 repository, inside the
+example-fraud-score directory owned by testuser.
+
+However, if for any reason your DeployR repository does not contain
+these files you can add them using the DeployR Repository Manager as
+follows:
+
+1. Log in as testuser into the Repository Manager
+2. Create a new repository directory called example-fraud-score
+3. Upload analytics/fraudModel.rData to the example-fraud-score
+   directory
+4. Upload analytics/ccFraudScore.R to the example-fraud-score directory
+
+
 ## Example Server Application
 
 
