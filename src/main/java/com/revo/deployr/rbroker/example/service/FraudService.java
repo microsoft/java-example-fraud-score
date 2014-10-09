@@ -16,7 +16,7 @@
  * Spring Boot service exposing RBroker runtime services
  * to client applications via FraudController REST API.
  */
-package com.revo.deployr.rbroker.example.controller;
+package com.revo.deployr.rbroker.example.service;
 
 import com.revo.deployr.rbroker.example.model.FraudScore;
 import com.revo.deployr.rbroker.example.model.RuntimeStats;

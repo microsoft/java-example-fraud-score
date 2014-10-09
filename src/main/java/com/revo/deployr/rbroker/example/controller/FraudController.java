@@ -21,6 +21,7 @@
  */
 package com.revo.deployr.rbroker.example.controller;
 
+import com.revo.deployr.rbroker.example.service.FraudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
