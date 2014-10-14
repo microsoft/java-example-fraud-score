@@ -180,6 +180,19 @@ the client application in your Web browser:
 http://localhost:9080
 ```
 
+## Multiple Users Running the Example
+
+By default, the example build configuration defaults to using *testuser*
+account credentials when authenticating with the DeployR server. If two
+or more users intend running this application at the same time then:
+
+1. Each user must update the `username` property in their build.gradle
+configuration file, each indicating the *username* of their own user account.
+
+2. The _access controls_ on the R analytics file depencencies in the DeployR
+repository must been changed from _private_ access to _shared_ access.
+
+
 ## DeployR Integration Details
 
 #### R Analytics Dependencies
