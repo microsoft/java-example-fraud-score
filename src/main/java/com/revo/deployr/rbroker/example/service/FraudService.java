@@ -89,7 +89,7 @@ public class FraudService
                                         new PoolPreloadOptions();
                 preloadOptions.filename = "fraudModel.rData";
                 preloadOptions.directory = "example-fraud-score";
-                preloadOptions.author = System.getProperty("username");
+                preloadOptions.author = "testuser";
                 poolOptions.preloadWorkspace = preloadOptions;
                 String endpoint = System.getProperty("endpoint");
 
