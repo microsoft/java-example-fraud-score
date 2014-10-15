@@ -222,4 +222,21 @@ Specifically, this example uses the [Pooled Task Runtime](http://deployr.revolut
 
 The _Resize_ button in the _RBroker Runtime Window_ in the example client application lets the end user experiment with the size of the pool of R sessions associated with the _Pooled Task Runtime_.
 
-We recommend experimenting with the size of the pool and observing the effect this has on throughput. See the [simulations](http://deployr.revolutionanalytics.com/documents/dev/rbroker/#simulation), [profiling](http://deployr.revolutionanalytics.com/documents/dev/rbroker/#profiling) and [resource management](http://deployr.revolutionanalytics.com/documents/dev/rbroker/#gridprimer) sections of the _RBroker Framework_ tutorial for related details.
+We recommend experimenting with the size of the pool and observing the effect 
+this has on throughput. See the following sections of the _RBroker Framework_ 
+tutorial for related details:
+
+- [Client Application Simulations](http://deployr.revolutionanalytics.com/documents/dev/rbroker/#simulation)
+- [Client Application Profiling](http://deployr.revolutionanalytics.com/documents/dev/rbroker/#profiling)
+- [Grid Resource Management](http://deployr.revolutionanalytics.com/documents/dev/rbroker/#gridprimer) 
+
+## License ##
+
+Copyright (C) 2010-2014 by Revolution Analytics Inc.
+
+This program is licensed to you under the terms of Version 2.0 of the
+Apache License. This program is distributed WITHOUT
+ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THOSE OF NON-INFRINGEMENT,
+MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. Please refer to the
+Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0) for more 
+details.
