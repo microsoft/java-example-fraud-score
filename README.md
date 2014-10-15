@@ -187,10 +187,13 @@ account credentials when authenticating with the DeployR server. If two
 or more users intend running this example application at the same time
 against the same DeployR server instance then:
 
-1. Each user must update the `username` property in their build.gradle
-configuration file, each indicating the *username* of their own user account.
+1. Each user must update the `username` and `password` properties in their
+build.gradle configuration file, each indicating the *username* and 
+*password* for their own user account.
 
-2. The _Access Control_ setting for each of the R analytics file depencencies in the DeployR repository must be changed from _Private_ access to _Shared_ access.
+2. The _Access Control_ setting for each of the example R analytics file
+depencencies in the DeployR repository must be changed from _Private_ access
+to _Shared_ access.
 
 
 ## DeployR Integration Details
