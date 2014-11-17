@@ -21,6 +21,24 @@ applicationDefaultJvmArgs = ["-Dendpoint=http://localhost:7300/deployr",
                              "-Dpassword=changeme",
                              "-Dpoolsize=1"]
 
+task endpointOverride << {
+
+    /*
+     * Usage: gradlew run -Pendpoint=http://dserver:dport/deployr
+     */
+
+    if(project.hasProperty('endpoint')) {
+        applicationDefaultJvmArgs[0] = "-Dendpoint=${endpoint}"
+        println "Project property (DeployR endpoint) override: " +
+                                "${applicationDefaultJvmArgs[0]}"
+    } else {
+        println "Project property (DeployR endpoint) default: " +
+                                "${applicationDefaultJvmArgs[0]}"
+    }
+}
+
+tasks.run.dependsOn endpointOverride
+
 repositories {
     mavenCentral()
 }
