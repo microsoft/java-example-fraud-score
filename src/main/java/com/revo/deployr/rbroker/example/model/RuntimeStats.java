@@ -38,6 +38,7 @@ public @Data class RuntimeStats {
      */
     public int requestedPoolSize;
     public int allocatedPoolSize;
+    public int maxConcurrency;
 
     /*
      * RTask Throughput

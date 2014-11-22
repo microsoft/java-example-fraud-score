@@ -90,10 +90,10 @@
                    <span style="font-size:16px;color:gray">{{runtimeStats.allocatedPoolSize}}</span></div>
                 <div class="col-md-4">
                     <a data-toggle="tooltip"
-                        title="Maximum number of RTask that can execute in parallel on the RBroker runtime. Note, the max concurrency of the RBroker (pooled) runtime always equals the number of dedicated R sessions allocated by DeployR to the runtime.">
+                        title="Maximum number of RTask that can execute in parallel on the RBroker runtime. On initialization, the max concurrency of the PooledTaskBroker runtime equals the number of dedicated R sessions allocated to the runtime by DeployR.">
                        Max Concurrency:
                     </a> 
-                    <span style="font-size:16px;color:gray">{{runtimeStats.allocatedPoolSize}}</span></div>
+                    <span style="font-size:16px;color:gray">{{runtimeStats.maxConcurrency}}</span></div>
             </div>
             <div class="row">
                 <div class="col-md-12" style="height:4px;"></h5></div>
@@ -151,8 +151,11 @@
             <div class="row">
                 <div class="col-md-12" style="height:10px;"></h5></div>
             </div>
-            <div class="row" ng-if="alertMessage != null">
-                <div class="col-md-12 alert alert-info">{{alertMessage}}</div>
+            <div class="row" ng-if="alertInfoMessage != null">
+                <div class="col-md-12 alert alert-info">{{alertInfoMessage}}</div>
+            </div>
+            <div class="row" ng-if="alertWarnMessage != null">
+                <div class="col-md-12 alert alert-danger">{{alertWarnMessage}}</div>
             </div>
         </div>
     </div>

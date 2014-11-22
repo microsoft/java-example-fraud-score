@@ -55,8 +55,8 @@ public class FraudController {
         } catch(Exception ex) {
             log.warn("FraudController: buildPool ex=" + ex);
             String cause = ex.getMessage();
-            String msg = "RBroker runtime pool initialization failed. Cause: " + cause;
-            fraudService.alertClient(msg, cause);
+            String msg = "RBroker runtime pool initialization failed: " + cause;
+            fraudService.alertClient(msg, cause, true);
         }
     }
 

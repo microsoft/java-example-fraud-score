@@ -1,5 +1,5 @@
 /*
- * ClientAlert.java
+ * ClientWarn.java
  *
  * Copyright (C) 2010-2014 by Revolution Analytics Inc.
  *
@@ -13,7 +13,7 @@
 /*
  * Java Fraud Detection Example Application
  *
- * CLIENTALERT - Fraud application runtime notification alert message.
+ * CLIENTWARN - Fraud application runtime notification warning message.
  *
  * Delivered over STOMP to subscribers on /topic/fraud.
  */
@@ -21,9 +21,9 @@ package com.revo.deployr.rbroker.example.model;
 
 import lombok.Data;
 
-public class ClientAlert extends ClientMessage {
+public class ClientWarn extends ClientMessage {
 
-    public ClientAlert() {
-        super("CLIENTALERT");
+    public ClientWarn() {
+        super("CLIENTWARN");
     }
 }

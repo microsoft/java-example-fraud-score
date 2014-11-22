@@ -20,7 +20,9 @@ package com.revo.deployr.rbroker.example.service;
 
 import com.revo.deployr.rbroker.example.model.FraudScore;
 import com.revo.deployr.rbroker.example.model.RuntimeStats;
+import com.revo.deployr.rbroker.example.model.ClientMessage;
 import com.revo.deployr.rbroker.example.model.ClientAlert;
+import com.revo.deployr.rbroker.example.model.ClientWarn;
 
 import com.revo.deployr.client.broker.*;
 import com.revo.deployr.client.broker.config.*;
@@ -73,6 +75,13 @@ public class FraudService
 
         try {
 
+            String msg = "RBroker pool initializing on " +
+                         System.getProperty("endpoint") +
+                         ". Requested " + poolSize +
+                         " R session(s) in the pool. " +
+                         "This may take some time. Please wait.";
+            alertClient(msg, null, false);
+
             if(rBroker == null) {
 
                 /*
@@ -89,7 +98,7 @@ public class FraudService
                                         new PoolPreloadOptions();
                 preloadOptions.filename = "fraudModel.rData";
                 preloadOptions.directory = "example-fraud-score";
-                preloadOptions.author = "testuser";
+                preloadOptions.author = System.getProperty("username");
                 poolOptions.preloadWorkspace = preloadOptions;
                 String endpoint = System.getProperty("endpoint");
 
@@ -147,6 +156,9 @@ public class FraudService
 
         } catch(Exception ex) {
             log.warn("FraudService: init ex=" + ex);
+            String msg = "RBroker pool initialization failed. Is " +
+                System.getProperty("endpoint") + " a valid DeployR server endpoint?";
+            alertClient(msg, ex.getMessage(), true);
         }
     }
 
@@ -179,7 +191,7 @@ public class FraudService
 
             rTask = RTaskFactory.pooledTask("ccFraudScore",
                                             "example-fraud-score",
-                                            "testuser",
+                                            System.getProperty("username"),
                                             null, taskOptions);
 
         } catch(Exception ex) {
@@ -231,7 +243,7 @@ public class FraudService
             String msg = "The RBroker runtime has lost it's connection " +
                 "to DeployR server. Try building a new pool using Resize.";
             String cause = throwable.getMessage();
-            alertClient(msg, cause);
+            alertClient(msg, cause, true);
         }
     }
 
@@ -245,9 +257,8 @@ public class FraudService
          * runtime broadcast an alert message.
          */
         String cause = throwable.getMessage();
-        String msg = "The RBroker runtime has indicated an unexpected " +
-           " runtime error has occured. Cause: " + cause;
-        alertClient(msg, cause);
+        String msg = "RBrokerListener Event: " + cause;
+        alertClient(msg, cause, true);
     }
 
     public void onRuntimeStats(RBrokerRuntimeStats stats, int maxConcurrency) {
@@ -271,21 +282,26 @@ public class FraudService
 
         FraudScore fraudScore = new FraudScore();
 
-        if(rTaskResult != null)
-            fraudScore.success = true;
-
         try {
 
-            List<RData> rinputs =
-                ((PooledTaskOptions)((PooledTask)rTask).options).rinputs;
+            if(rTaskResult.isSuccess()) {
 
-            fraudScore.balance = (int) ((RNumeric)rinputs.get(0)).getValue();
-            fraudScore.transactions = (int) ((RNumeric)rinputs.get(1)).getValue();
-            fraudScore.credit = (int) ((RNumeric)rinputs.get(2)).getValue();
+                fraudScore.success = true;
 
-            if(rTaskResult != null) {
-                List<RData> rObjects = rTaskResult.getGeneratedObjects();
-                fraudScore.score = ((RNumeric)rObjects.get(0)).getValue();
+                List<RData> rinputs =
+                    ((PooledTaskOptions)((PooledTask)rTask).options).rinputs;
+
+                fraudScore.balance =
+                    (int) ((RNumeric)rinputs.get(0)).getValue();
+                fraudScore.transactions =
+                    (int) ((RNumeric)rinputs.get(1)).getValue();
+                fraudScore.credit =
+                    (int) ((RNumeric)rinputs.get(2)).getValue();
+
+                if(rTaskResult != null) {
+                    List<RData> rObjects = rTaskResult.getGeneratedObjects();
+                    fraudScore.score = ((RNumeric)rObjects.get(0)).getValue();
+                }
             }
 
         } catch(Exception ex) {
@@ -304,6 +320,7 @@ public class FraudService
 
         runtimeStats.requestedPoolSize = brokerConfig.maxConcurrentTaskLimit;
         runtimeStats.allocatedPoolSize = lastAllocatedPoolSize;
+        runtimeStats.maxConcurrency = rBroker.maxConcurrency();
 
         runtimeStats.endpoint = brokerConfig.deployrEndpoint;
         if(brokerConfig.userCredentials != null) {
@@ -338,15 +355,16 @@ public class FraudService
         return runtimeStats;
     }
 
-    public void alertClient(String msg, String cause) {
+    public void alertClient(String msg, String cause, boolean warning) {
 
         try {
 
-            ClientAlert clientAlert = new ClientAlert();
-            clientAlert.msg = msg;
-            clientAlert.cause = cause;
-            // Push ClientAlert message over STOMP Web Socket to clients.
-            simpMessagingTemplate.convertAndSend(FRAUDMSGTOPIC, clientAlert);
+            ClientMessage clientMsg =
+                warning ? new ClientWarn() : new ClientAlert();
+            clientMsg.msg = msg;
+            clientMsg.cause = cause;
+            // Push ClientMessage over STOMP Web Socket to clients.
+            simpMessagingTemplate.convertAndSend(FRAUDMSGTOPIC, clientMsg);
 
         } catch(Exception cex) {}
 

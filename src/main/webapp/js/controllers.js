@@ -39,7 +39,8 @@ function fraudController($scope, $http) {
     // ng-controller model on $scope.
     //
     $scope.brokerInitialized = false;
-    $scope.alertMessage = null;
+    $scope.alertInfoMessage = null;
+    $scope.alertWarnMessage = null;
 
     $scope.fraudScoreResults = [ ];
     $scope.poolSize = 1;
@@ -48,6 +49,7 @@ function fraudController($scope, $http) {
     $scope.runtimeStats = {
         requestedPoolSize: 1,
         allocatedPoolSize: 1,
+        maxConcurrency: 1,
         submittedTasks: 0,
         successfulTasks: 0,
         failedTasks: 0,
@@ -99,17 +101,29 @@ function fraudController($scope, $http) {
                 if(msgObj.msgType == "RUNTIMESTATS") {
                     // $apply to propogate change to model.
                     $scope.$apply(function () {
-                        $scope.alertMessage = null;
+                        $scope.alertInfoMessage = null;
                         $scope.runtimeStats = msgObj;
                     });
                 } else
                 if(msgObj.msgType == "CLIENTALERT") {
                     // $apply to propogate change to model.
                     $scope.$apply(function () {
-                        $scope.alertMessage = msgObj.msg;
+                        $scope.alertInfoMessage = msgObj.msg;
+                    });
+                } else
+                if(msgObj.msgType == "CLIENTWARN") {
+                    // $apply to propogate change to model.
+                    $scope.$apply(function () {
+                        $scope.alertWarnMessage = msgObj.msg;
                     });
                 }
             });
+
+            //
+            // Now that the STOMP connection has been established,
+            // initialize initial RBroker pool on application startup.
+            //
+            $scope.resizePool();
         });
 
         $scope.socketInitialized = true;
@@ -120,14 +134,13 @@ function fraudController($scope, $http) {
     // Resize Button Handler:
     //
     $scope.resizePool = function() {
-        $scope.alertMessage = "RBroker pool is initializing. " +
-            "Requested " + $scope.poolSize + " R session(s) in the pool. " +
-                    "This may take some time. Please wait.";
+        $scope.alertWarnMessage = null;
+        $scope.alertInfoMessage = null;
         $scope.brokerInitialized = false;
         $http.post('/fraud/pool/init/' + $scope.poolSize).success(function (data, status, headers, config) {
             console.log("Attempt to resize pool succeeded, new size=" + $scope.poolSize);
         }).error(function (data, status, headers, config) {
-            $scope.errorMessage = "Attempt to resize pool failed, error=" + data;
+            $scope.alertWarnMessage = "Attempt to resize pool failed, error=" + data;
         }).finally(function () {
             $scope.fraudScoreResults = [];
             $scope.brokerInitialized = true;
@@ -143,6 +156,7 @@ function fraudController($scope, $http) {
     //
     $scope.executeTasks = function() {
 
+        $scope.alertWarnMessage = null;
         $scope.currentTaskThroughput = 0;
         $scope.secondTaskThroughput = 0;
         $scope.minuteTaskThroughput = 0;
@@ -152,14 +166,10 @@ function fraudController($scope, $http) {
         $http.get('/fraud/score/' + $scope.taskCount).success(function (data, status, headers, config) {
             console.log("Attempt to execute tasks succeeded, taskCount=" + $scope.taskCount);
         }).error(function (data, status, headers, config) {
-            $scope.errorMessage = "Can't retrieve scores list!";
-            $scope.errorMessage = "Attempt to execute tasks failed, error=" + data;
+            $scope.alertWarnMessage = "Can't retrieve scores list!";
+            $scope.alertWarnMessage = "Attempt to execute tasks failed, error=" + data;
         });
 
     }
 
-    //
-    // Initialize initial RBroker pool on application startup.
-    //
-    $scope.resizePool();
 }
