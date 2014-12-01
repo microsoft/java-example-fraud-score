@@ -42,7 +42,7 @@ task argsOverride << {
                                 "${applicationDefaultJvmArgs[2]}"
     } else {
         println "Project property (DeployR username) default: " +
-                                "${applicationDefaultJvmArgs[3]}"
+                                "${applicationDefaultJvmArgs[2]}"
     }
 
     if(project.hasProperty('password')) {
