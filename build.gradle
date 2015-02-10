@@ -12,13 +12,16 @@ apply plugin: "spring-boot"
 
 group = "com.revo.deployr.java.rbroker.example"
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 
-applicationDefaultJvmArgs = ["-Dendpoint=http://localhost:7300/deployr",
+applicationDefaultJvmArgs = ["-Dendpoint=http://localhost:7400/deployr",
                              "-Dserver.port=9080",
                              "-Dusername=testuser",
                              "-Dpassword=changeme",
+                             "-Drepository-model=fraudModel.rData",
+                             "-Drepository-script=ccFraudScore.R",
+                             "-Drepository-directory=example-fraud-score",
                              "-Dpoolsize=1"]
 
 task argsOverride << {
@@ -61,8 +64,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.revolutionanalytics.deployr:jRBroker:7.3.0"
-    compile "com.revolutionanalytics.deployr:jDeployR:7.3.0"
+    compile "com.revolutionanalytics.deployr:jRBroker:7.4.1"
     compile "org.springframework.boot:spring-boot-starter-web:1.0.1.RELEASE"
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework:spring-messaging")
