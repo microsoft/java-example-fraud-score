@@ -96,11 +96,13 @@ public class FraudService
 
                 PoolPreloadOptions preloadOptions = 
                                         new PoolPreloadOptions();
-                preloadOptions.filename = "fraudModel.rData";
-                preloadOptions.directory = "example-fraud-score";
+                preloadOptions.filename = System.getProperty("repository-model");
+                preloadOptions.directory = System.getProperty("repository-directory");
                 preloadOptions.author = System.getProperty("username");
                 poolOptions.preloadWorkspace = preloadOptions;
                 String endpoint = System.getProperty("endpoint");
+                boolean allowSelfSigned = 
+                    Boolean.valueOf(System.getProperty("allow.SelfSignedSSLCert"));
 
                 /*
                  * Ensure releaseGridResources property is enabled
@@ -114,6 +116,7 @@ public class FraudService
                                                       rAuth,
                                                       poolSize,
                                                       poolOptions);
+                brokerConfig.allowSelfSignedSSLCert = allowSelfSigned;
 
                 rBroker = RBrokerFactory.pooledTaskBroker(brokerConfig);
                 lastAllocatedPoolSize = rBroker.maxConcurrency();
@@ -157,7 +160,9 @@ public class FraudService
         } catch(Exception ex) {
             log.warn("FraudService: init ex=" + ex);
             String msg = "RBroker pool initialization failed. Is " +
-                System.getProperty("endpoint") + " a valid DeployR server endpoint?";
+                System.getProperty("endpoint") +
+                " a valid DeployR server endpoint?" +
+                " Using valid user credentials?";
             alertClient(msg, ex.getMessage(), true);
         }
     }
@@ -189,8 +194,8 @@ public class FraudService
                 (RData) RDataFactory.createNumeric("credit", credit)
             );
 
-            rTask = RTaskFactory.pooledTask("ccFraudScore",
-                                            "example-fraud-score",
+            rTask = RTaskFactory.pooledTask(System.getProperty("repository-script"),
+                                            System.getProperty("repository-directory"),
                                             System.getProperty("username"),
                                             null, taskOptions);
 
