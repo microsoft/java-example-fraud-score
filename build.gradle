@@ -16,14 +16,14 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 applicationDefaultJvmArgs = [ "-Dendpoint=http://localhost:7400/deployr",
-                              "-Dallow.SelfSignedSSLCert=true",
                               "-Dserver.port=9080",
                               "-Dusername=testuser",
                               "-Dpassword=changeme",
                               "-Drepository-model=fraudModel.rData",
                               "-Drepository-script=ccFraudScore.R",
                               "-Drepository-directory=example-fraud-score",
-                              "-Dpoolsize=1"]
+                              "-Dpoolsize=1",
+                              "-Dallow.SelfSignedSSLCert=true"]
 
 task argsOverride << {
 
