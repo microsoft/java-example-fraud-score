@@ -65,7 +65,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.revolutionanalytics.deployr:jRBroker:7.4.5"
+    compile "com.revolutionanalytics.deployr:jRBroker:7.4.7"
     compile "org.springframework.boot:spring-boot-starter-web:1.0.1.RELEASE"
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework:spring-messaging")
