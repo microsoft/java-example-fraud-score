@@ -15,10 +15,10 @@ group = "com.revo.deployr.java.rbroker.example"
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
-applicationDefaultJvmArgs = [ "-Dendpoint=http://localhost:7400/deployr",
+applicationDefaultJvmArgs = [ "-Dendpoint=http://localhost:8050/deployr",
                               "-Dserver.port=9080",
                               "-Dusername=testuser",
-                              "-Dpassword=changeme",
+                              "-Dpassword=Secret1;",
                               "-Drepository-model=fraudModel.rData",
                               "-Drepository-script=ccFraudScore.R",
                               "-Drepository-directory=example-fraud-score",
@@ -65,7 +65,8 @@ repositories {
 }
 
 dependencies {
-    compile "com.revolutionanalytics.deployr:jRBroker:7.4.7"
+    //compile "com.revolutionanalytics.deployr:jRBroker:7.4.7"
+    compile "com.microsoft.deployr:jRBroker:8.0.5"
     compile "org.springframework.boot:spring-boot-starter-web:1.0.1.RELEASE"
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework:spring-messaging")
