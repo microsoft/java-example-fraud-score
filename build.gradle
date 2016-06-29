@@ -18,7 +18,7 @@ targetCompatibility = 1.6
 applicationDefaultJvmArgs = [ "-Dendpoint=http://localhost:8050/deployr",
                               "-Dserver.port=9080",
                               "-Dusername=testuser",
-                              "-Dpassword=Secret1;",
+                              "-Dpassword=TESTUSER_PASSWORD",
                               "-Drepository-model=fraudModel.rData",
                               "-Drepository-script=ccFraudScore.R",
                               "-Drepository-directory=example-fraud-score",
