@@ -153,7 +153,7 @@ build.gradle
 
 By default, the build configuration assumes an instance of the DeployR server
 is running on `localhost`. If your instance of DeployR is running at some
-other IP address then please udpate the `endpoint` property in the
+other IP address then please update the `endpoint` property in the
 configuration file as appropriate.
 
 You do not need to install Gradle before running these commands. To run
